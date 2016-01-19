@@ -5,9 +5,9 @@ import org.coconut.functor.function.NullaryFunction;
 import java.util.Iterator;
 
 public class FunctionBackedIterator<T> implements Iterator<T> {
-  private NullaryFunction<T> function;
+  private NullaryFunction<? extends T> function;
 
-  public FunctionBackedIterator(NullaryFunction<T> function) {
+  public FunctionBackedIterator(NullaryFunction<? extends T> function) {
     this.function = function;
   }
 

@@ -1,17 +1,16 @@
 package org.coconut.iterator;
 
 import java.util.Iterator;
-import static java.util.Objects.requireNonNull;
 
 import org.coconut.functor.procedure.UnaryProcedure;
 
 public class EachIterator<T> implements Iterator<T> {
-  private Iterator<T> iterator;
+  private Iterator<? extends T> iterator;
   private UnaryProcedure<? super T> procedure;
 
-  public EachIterator(Iterator<T> iterator, UnaryProcedure<? super T> procedure) {
-    this.iterator = requireNonNull(iterator);
-    this.procedure = requireNonNull(procedure);
+  public EachIterator(Iterator<? extends T> iterator, UnaryProcedure<? super T> procedure) {
+    this.iterator = iterator;
+    this.procedure = procedure;
   }
 
   @Override

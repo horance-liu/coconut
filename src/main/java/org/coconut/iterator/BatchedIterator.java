@@ -1,21 +1,17 @@
 package org.coconut.iterator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static java.util.Collections.unmodifiableList;
-import static java.util.Objects.requireNonNull;
-import static org.coconut.Preconditions.checkArgument;
-
 public class BatchedIterator<T> implements Iterator<Iterable<T>> {
   private Iterator<? extends T> iterator;
-  private int batchSize;
+  private int size;
 
-  public BatchedIterator(Iterator<? extends T> iterator, int batchSize) {
-    checkArgument(batchSize > 0, "Batch size must be greater than zero.");
-    this.iterator = requireNonNull(iterator);
-    this.batchSize = batchSize;
+  public BatchedIterator(Iterator<? extends T> iterator, int size) {
+    this.iterator = iterator;
+    this.size = size;
   }
 
   @Override
@@ -25,14 +21,14 @@ public class BatchedIterator<T> implements Iterator<Iterable<T>> {
 
   @Override
   public Iterable<T> next() {
-    return unmodifiableList(nextBatch());
+    return Collections.unmodifiableList(nextBatch());
   }
   
   private List<T> nextBatch() {
     List<T> batch = new ArrayList<T>();
-    for (int i = 0; i < batchSize; i++)
-      if (iterator.hasNext())
-        batch.add(iterator.next());
+    for (int i=0; i<size && iterator.hasNext(); i++) {
+      batch.add(iterator.next());
+    }
     return batch;
   }
 }
